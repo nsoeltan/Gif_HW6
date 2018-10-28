@@ -1,5 +1,3 @@
-
-
 <!-- OUTSTANDING: NEED TO STILL CONTIMUE TO WORK ON PAUSING/ANIMATING THE GIFS' CODE.(SEE ROWS 106-121).  -->
 
 <!DOCTYPE html>
@@ -7,6 +5,8 @@
 
 <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
     <title>Emotions Gifs</title>
     <style type="text/css">
         body {
@@ -18,10 +18,44 @@
         form,
         input {
             margin: 10px;
-            
+
         }
+
         .emotion {
             float: left;
+        }
+
+        /* Small Devices */
+        @media screen and (max-width : 360px) {
+            .container {
+                width: 100%;
+            }
+
+            .main-section {
+                width: 100%;
+            }
+        }
+        
+        /* Small Devices, Tablets */
+        @media screen and (max-width : 768px) {
+            .container {
+                width: 100%;
+            }
+
+            .main-section {
+                width: 100%;
+            }
+        }
+
+        /* Medium Devices, Desktops */
+        @media screen and (max-width : 980px) {
+            .container {
+                width: 100%;
+            }
+
+            .main-section {
+                width: 100%;
+            }
         }
     </style>
 </head>
@@ -75,7 +109,7 @@
                             // Storing the rating data
                             // Storing the result item's rating
                             var rating = results[i].rating;
-                            
+
                             var pOne = $("<p>").text("Rating: " + rating);
 
                             // Displaying the rating
@@ -100,22 +134,22 @@
                 });
 
 
-// Outstanding code to fix in order to pause and animate the gifs!!!!!!!
+                // Outstanding code to fix in order to pause and animate the gifs!!!!!!!
 
-// function playGif() { 
-//                     var state = $(this).attr('data-state');
-//                     console.log(state);
-//                  if ( state == 'still'){
-//                      $(this).attr('src', $(this).data('animate'));
-//                      $(this).attr('data-state', 'animate');
-//                  } else {
-//                      $(this).attr('src', $(this).data('still'));
-//                      $(this).attr('data-state', 'still');
-//                     }
+                // function playGif() { 
+                //                     var state = $(this).attr('data-state');
+                //                     console.log(state);
+                //                  if ( state == 'still'){
+                //                      $(this).attr('src', $(this).data('animate'));
+                //                      $(this).attr('data-state', 'animate');
+                //                  } else {
+                //                      $(this).attr('src', $(this).data('still'));
+                //                      $(this).attr('data-state', 'still');
+                //                     }
 
-//                 } 
-                
-//     })
+                //                 } 
+
+                //     })
 
             }
 
@@ -155,7 +189,7 @@
 
                 // Calling renderButtons which handles the processing of our emotion gifs array
                 renderButtons();
-                
+
             });
 
             // Adding a click event listener to all elements with a class of "emotion-btn"
