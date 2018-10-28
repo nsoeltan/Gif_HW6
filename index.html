@@ -1,0 +1,170 @@
+
+
+<!-- OUTSTANDING: NEED TO STILL CONTIMUE TO WORK ON PAUSING/ANIMATING THE GIFS' CODE.(SEE ROWS 106-121).  -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Emotions Gifs</title>
+    <style type="text/css">
+        body {
+            background-color: lavenderblush;
+        }
+
+        button,
+        div,
+        form,
+        input {
+            margin: 10px;
+            
+        }
+        .emotion {
+            float: left;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>I Feel................</h1>
+        <h2>("Ecstatic", "Sad", "Happy", "Tired", "Surprised", "Unimpressed", "Bored" etc.)</h2>
+
+        <!-- Rendered Buttons will get Dumped Here  -->
+        <div id="buttons-view"></div>
+
+        <form id="emotion-form">
+            <label for="emotion-input">Add an Emotion</label>
+            <input type="text" id="emotion-input"><br>
+
+            <!-- Button triggers new emotion gif to be added -->
+            <input id="add-emotion" type="submit" value="Submit">
+        </form>
+
+        <!-- Emotions Gifs will Get Dumped Here -->
+        <div id="emotions-view"></div>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script type="text/javascript">
+            // Variable to hold array of emotion gifs
+            var emotions = [];
+
+
+            // Function for dumping the JSON content for each button into the div
+            function displayEmotionInfo() {
+
+                var emotions = $(this).attr("data-name");
+                var queryURL = "https://api.giphy.com/v1/gifs/search?q=%22%20+%20" + emotions + "&api_key=LInBq7ghjEbNYf9NRW6fMJh4O7VMvBU4&limit=10";
+
+                // Creating an AJAX call for the specific emotion gif button being clicked on
+                $.ajax({
+                    url: queryURL,
+                    method: "GET"
+                }).then(function (response) {
+                    var results = response.data;
+                    for (var i = 0; i < results.length; i++) {
+
+                        // Only taking action if the photo has an appropriate rating
+                        if (results[i].rating !== "r" && results[i].rating !== "pg-13") {
+
+                            // Creating a div to hold the emotion
+                            var emotionDiv = $("<div class='emotion'>");
+
+                            // Storing the rating data
+                            // Storing the result item's rating
+                            var rating = results[i].rating;
+                            
+                            var pOne = $("<p>").text("Rating: " + rating);
+
+                            // Displaying the rating
+                            emotionDiv.append(pOne);
+
+
+                            var personImage = $("<img>");
+
+                            // Giving the image tag an src attribute of a property pulled off the
+                            // result item
+                            personImage.attr("src", results[i].images.fixed_height.url);
+
+
+                            // Appending the image
+                            emotionDiv.append(personImage);
+
+                            // Putting the entire emotion gifs above the previous emotion gifs
+                            $("#emotions-view").prepend(emotionDiv);
+
+                        }
+                    }
+                });
+
+
+// Outstanding code to fix in order to pause and animate the gifs!!!!!!!
+
+// function playGif() { 
+//                     var state = $(this).attr('data-state');
+//                     console.log(state);
+//                  if ( state == 'still'){
+//                      $(this).attr('src', $(this).data('animate'));
+//                      $(this).attr('data-state', 'animate');
+//                  } else {
+//                      $(this).attr('src', $(this).data('still'));
+//                      $(this).attr('data-state', 'still');
+//                     }
+
+//                 } 
+                
+//     })
+
+            }
+
+
+            // Function for displaying emotion gifs data
+            function renderButtons() {
+
+                // Deleting the emotions gifs prior to adding new emotions
+                // (this is necessary otherwise you will have repeat buttons)
+                $("#buttons-view").empty();
+
+                // Looping through the array of emotion gifs
+                for (var i = 0; i < emotions.length; i++) {
+
+                    // Then dynamicaly generating buttons for each emotion gif in the array
+                    // This code $("<button>") is all jQuery needs to create the beginning and end tag. (<button></button>)
+                    var a = $("<button>");
+                    // Adding a class of emotion-btn to our button
+                    a.addClass("emotion-btn");
+                    // Adding a data-attribute
+                    a.attr("data-name", emotions[i]);
+                    // Providing the initial button text
+                    a.text(emotions[i]);
+                    // Adding the button to the buttons-view div
+                    $("#buttons-view").append(a);
+                }
+            }
+
+            // This function handles events where a emotion gif button is clicked
+            $("#add-emotion").on("click", function (event) {
+                event.preventDefault();
+                // This line grabs the input from the textbox
+                var emotion = $("#emotion-input").val().trim();
+
+                // Adding the emotion from the textbox to our array
+                emotions.push(emotion);
+
+                // Calling renderButtons which handles the processing of our emotion gifs array
+                renderButtons();
+                
+            });
+
+            // Adding a click event listener to all elements with a class of "emotion-btn"
+            $(document).on("click", ".emotion-btn", displayEmotionInfo);
+
+            // Calling the renderButtons function to display the intial buttons
+            renderButtons();
+        </script>
+    </div>
+</body>
+
+</html>
